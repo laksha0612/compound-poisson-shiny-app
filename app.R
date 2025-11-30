@@ -63,19 +63,38 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       h3("Process Parameters"),
+      
+      # Poisson Arrival Rate λ
       sliderInput("lambda", "Poisson Arrival Rate (λ):", 
                   min = 0.1, max = 5, value = 2, step = 0.1),
+      
+      # Claim Size Rate μ
       sliderInput("mu", "Claim Size Rate (μ):", 
                   min = 0.1, max = 2, value = 0.5, step = 0.05),
-      sliderInput("T_max", "Max Time (T):", 
-                  min = 10, max = 50, value = 20, step = 1),
-      numericInput("N_simulations", "No. of Simulations for Histogram:", 
+      
+      # Max Time T using numericInput
+      numericInput("T_max", 
+                   "Max Time (T):", 
+                   value = 20,      # default
+                   min = 10,        # minimum
+                   max = 100000,    # maximum
+                   step = 1),       # typing allows any value
+      
+      # Number of simulations for histogram
+      numericInput("N_simulations", 
+                   "No. of Simulations for Histogram:", 
                    value = 5000, min = 1000, step = 1000),
+      
+      # Button to resimulate
       actionButton("resimulate", "Resimulate Path & Distribution", class = "btn-primary"),
       
       hr(),
+      
+      # Display theoretical expected value
       p(strong("E[S(T)] = λT/μ:")),
       textOutput("expected_value"),
+      
+      # Display theoretical variance
       p(strong("Var[S(T)] = 2λT/μ²:")),
       textOutput("variance_value")
     ),
